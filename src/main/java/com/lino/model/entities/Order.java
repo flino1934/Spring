@@ -41,7 +41,7 @@ public class Order implements Serializable {
 	@OneToMany(mappedBy = "id.order") // associação de um para muitos com orderItem
 	private Set<OrderItem> items = new HashSet<>();
 
-	@OneToOne(mappedBy = "order",cascade = CascadeType.ALL)
+	@OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
 	private Payment payment;
 
 	public Order() {
@@ -107,6 +107,17 @@ public class Order implements Serializable {
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
+	}
+
+	public double getTotal() {
+
+		double sum = 0.0;
+
+		for (OrderItem x : items) {
+			sum += x.getSubTotal();
+		}
+
+		return sum;
 	}
 
 	@Override
